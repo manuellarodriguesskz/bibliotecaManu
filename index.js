@@ -1,13 +1,18 @@
 const express = require('express');
-const livrosRoutes = require('./src/routes/livrosRoutes');
+const routes = require('./src/routes/index.routes');
 const app = express();
 
 app.use(express.json());
 
-app.use('/livros', livrosRoutes);
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Utilizando as rotas
+app.use(routes);
 
 const PORT = 3000;
-
 app.listen(PORT, () => {
-console.log(`[SERVIDOR]: Biblioteca online em http://localhost:${PORT}`)
-})
+  console.log(`[SERVIDOR]: Biblioteca online em http://localhost:${PORT}`);
+});
